@@ -68,7 +68,7 @@ def run(args: Options):
     assert args.mode in ["align", "crop"], "Expected extractions mode to be one of 'align' or 'crop'"
 
     root_path = Path(args.root_path)
-    out_crops_path = root_path.parent / Path(root_path.name + "_" + args.mode + "ed")
+    out_crops_path = root_path.parent / Path(root_path.name + "_" + (args.mode + "p" if args.mode == "crop" else args.mode) + "ed")
     if not out_crops_path.exists():
         out_crops_path.mkdir(exist_ok=True, parents=True)
 
@@ -84,7 +84,7 @@ def run(args: Options):
     tic = time.time()
     pool.map(partial(extract_on_paths, args=args), file_chunks)
     toc = time.time()
-    print(f'Mischief managed in {tic - toc}s')
+    print(f'Mischief managed in {toc - tic}s')
 
 
 if __name__ == '__main__':

@@ -68,8 +68,8 @@ def generate_images(generator_path: Path, n_images: int, truncation_psi: float, 
         ws.append(w.detach().cpu().numpy())
 
         # if using unaligned generator, before generating the image and predicting attribute scores, align the image
-        if generator_path == Path(model_paths["stylegan3_ffhq_unaligned"]):
-            w[:, 0] = G.mapping.w_avg
+        # if generator_path == Path(model_paths["stylegan3_ffhq_unaligned"]):
+        #     w[:, 0] = G.mapping.w_avg
 
         img = G.synthesis(w, noise_mode="const")
         img = face_pool(img)

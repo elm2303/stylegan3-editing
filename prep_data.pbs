@@ -1,0 +1,46 @@
+#!/bin/bash
+#PBS -N prepare_data
+#PBS -l select=1:ncpus=2:mem=24gb:ngpus=1:gpu_type=RTX6000
+#PBS -l walltime=02:00:00
+#PBS -j oe
+
+# Load modules
+module load cuda/11.1.1
+module load miniforge/3
+
+# Activate conda environment
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate ffhq_uv_stylegan3_cu111
+
+# Go to the directory where you submitted the job
+cd $PBS_O_WORKDIR
+
+echo "[$(date)] Starting data preparation"
+
+RAW=$PBS_O_WORKDIR/test
+CROPPED=$PBS_O_WORKDIR/test_cropped
+ALIGNED=$PBS_O_WORKDIR/test_aligned
+TRANSFORMS=$PBS_O_WORKDIR/landmarks_transforms
+
+echo "[$(date)] Aligning faces..."
+python prepare_data/preparing_faces_parallel.py \
+  --mode align \
+  --root_path ${RAW} \
+  --num_threads 4 || { echo "Align step failed"; exit 1; }
+
+echo "[$(date)] Cropping faces..."
+python prepare_data/preparing_faces_parallel.py \
+  --mode crop \
+  --root_path ${RAW} \
+  --random_shift 0.05 \
+  --num_threads 4 || { echo "Crop step failed"; exit 1; }
+
+export PYTHONPATH=$PBS_O_WORKDIR:$PYTHONPATH
+echo "[$(date)] Computing landmark transforms..."
+python prepare_data/compute_landmarks_transforms.py \
+  --raw_root ${RAW} \
+  --aligned_root ${ALIGNED} \
+  --cropped_root ${CROPPED} \
+  --output_root ${TRANSFORMS} || { echo "Transforms step failed"; exit 1; }
+
+echo "[$(date)] Data preparation completed successfully"

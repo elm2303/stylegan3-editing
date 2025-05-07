@@ -13,9 +13,9 @@ model_paths = {
 	'ir_se50': Path('pretrained_models/model_ir_se50.pth'),
 	# stylegan3 generators
 	'stylegan3_ffhq': Path('pretrained_models/stylegan3-r-ffhq-1024x1024.pkl'),
-	'stylegan3_ffhq_pt': Path('pretrained_models/sg3-r-ffhq-1024.pt'),
-	'stylegan3_ffhq_unaligned': Path('pretrained_models/stylegan3-r-ffhqu-1024x1024.pkl'),
-	'stylegan3_ffhq_unaligned_pt': Path('pretrained_models/sg3-r-ffhqu-1024.pt'),
+	'stylegan3_ffhq_pt': Path('pretrained_models/stylegan3-r-ffhq-1024x1024.pt'),
+	#'stylegan3_ffhq_unaligned': Path('pretrained_models/stylegan3-r-ffhqu-1024x1024.pkl'),
+	#'stylegan3_ffhq_unaligned_pt': Path('pretrained_models/sg3-r-ffhqu-1024.pt'),
 	# model for face alignment
 	'shape_predictor': Path('pretrained_models/shape_predictor_68_face_landmarks.dat'),
 	# models for ID similarity computation
