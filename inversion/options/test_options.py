@@ -32,15 +32,20 @@ class TestOptions:
 
     """ Editing args """
     # List of edits to perform
-    edit_directions: List[str] = field(default=["age", "smile", "pose"], is_mutable=True)
+    edit_directions: List[str] = field(default=["pose"], is_mutable=True)
     # List of ranges for each edit. For example, (-4_5) defines an editing range from -4 to 5
-    factor_ranges: List[str] = dataclasses.field(default_factory=lambda: ["(-5_5)", "(-5_5)", "(-5_5)"])
+    factor_ranges: List[str] = dataclasses.field(default_factory=lambda: ["(-5_5)"])
 
     def __post_init__(self):
         self.factor_ranges = self._parse_factor_ranges()
-        if len(self.edit_directions) != len(self.factor_ranges):
-            raise ValueError("Invalid edit directions and factor ranges. Please provide a single factor range for each"
-                             f"edit direction. Given: {self.edit_directions} and {self.factor_ranges}")
+
+        if len(self.edit_directions) > 1:
+            if len(self.edit_directions) != len(self.factor_ranges):
+                raise ValueError(
+                    f"Invalid edit directions and factor ranges. "
+                    f"Need one range per direction when you have multiple directions. "
+                    f"Got directions={self.edit_directions}, ranges={self.factor_ranges}"
+                )
 
     def _parse_factor_ranges(self):
         factor_ranges = []

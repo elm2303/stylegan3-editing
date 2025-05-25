@@ -32,8 +32,8 @@ def load_encoder(checkpoint_path: Path, test_opts: Optional[TestOptions] = None,
 
     if opts['stylegan_weights'] == Path(model_paths["stylegan3_ffhq"]):
         opts['stylegan_weights'] = Path(model_paths["stylegan3_ffhq_pt"])
-    # if opts['stylegan_weights'] == Path(model_paths["stylegan3_ffhq_unaligned"]):
-    #     opts['stylegan_weights'] = Path(model_paths["stylegan3_ffhq_unaligned_pt"])
+    if opts['stylegan_weights'] == Path(model_paths["stylegan3_ffhq_unaligned"]):
+        opts['stylegan_weights'] = Path(model_paths["stylegan3_ffhq_unaligned_pt"])
 
     if opts["encoder_type"] in ENCODER_TYPES['pSp']:
         opts = TrainOptions(**opts)

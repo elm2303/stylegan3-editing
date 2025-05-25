@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N invert
+#PBS -l select=1:ncpus=1:mem=16gb:ngpus=1
+#PBS -l walltime=00:15:00
+#PBS -j oe
+
+# Load modules
+module load cuda/11.1.1
+module load miniforge/3
+
+# Activate conda environment
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate ffhq_uv_stylegan3_cu111
+
+# Go to the directory where you submitted the job
+cd $PBS_O_WORKDIR
+
+export CXX=g++
+export CC=gcc
+export LD_LIBRARY_PATH="${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}"
+
+SCRIPT=$PBS_O_WORKDIR/invert_or_edit.py
+CKPT=$PBS_O_WORKDIR/pretrained_models/restyle_e4e_ffhq.pt
+DATA=$PBS_O_WORKDIR/inputs
+OUTDIR=$PBS_O_WORKDIR/results
+
+mkdir -p $OUTDIR
+
+echo "=== START INVERSION ===  $(date)"
+
+python $SCRIPT \
+    --mode invert \
+    --checkpoint_path $CKPT \
+    --data_path $DATA \
+    --output_path $OUTDIR \
+    --test_batch_size 1 \
+    --test_workers 1 \
+    --n_iters_per_batch 3 \
+|| { echo "[ERROR] inversion failed"; exit 1; }
+
+echo "=== INVERSION COMPLETE === $(date)"

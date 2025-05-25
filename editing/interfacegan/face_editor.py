@@ -3,7 +3,7 @@ from typing import Optional, Tuple
 import numpy as np
 import torch
 
-from configs.paths_config import interfacegan_aligned_edit_paths, interfacegan_unaligned_edit_paths
+from configs.paths_config import interfacegan_aligned_edit_paths
 from models.stylegan3.model import GeneratorType
 from models.stylegan3.networks_stylegan3 import Generator
 from utils.common import tensor2im, generate_random_transform
@@ -13,16 +13,10 @@ class FaceEditor:
 
     def __init__(self, stylegan_generator: Generator, generator_type=GeneratorType.ALIGNED):
         self.generator = stylegan_generator
-        if generator_type == GeneratorType.ALIGNED:
-            paths = interfacegan_aligned_edit_paths
-        else:
-            paths = interfacegan_unaligned_edit_paths
+        paths = interfacegan_aligned_edit_paths
 
         self.interfacegan_directions = {
-            'age': torch.from_numpy(np.load(paths['age'])).cuda(),
-            'smile': torch.from_numpy(np.load(paths['smile'])).cuda(),
-            'pose': torch.from_numpy(np.load(paths['pose'])).cuda(),
-            'Male': torch.from_numpy(np.load(paths['Male'])).cuda(),
+            'pose': torch.from_numpy(np.load(paths['pose'])).cuda()
         }
 
     def edit(self, latents: torch.tensor, direction: str, factor: int = 1, factor_range: Optional[Tuple[int, int]] = None,

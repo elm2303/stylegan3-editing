@@ -14,8 +14,8 @@ model_paths = {
 	# stylegan3 generators
 	'stylegan3_ffhq': Path('pretrained_models/stylegan3-r-ffhq-1024x1024.pkl'),
 	'stylegan3_ffhq_pt': Path('pretrained_models/stylegan3-r-ffhq-1024x1024.pt'),
-	#'stylegan3_ffhq_unaligned': Path('pretrained_models/stylegan3-r-ffhqu-1024x1024.pkl'),
-	#'stylegan3_ffhq_unaligned_pt': Path('pretrained_models/sg3-r-ffhqu-1024.pt'),
+	'stylegan3_ffhq_unaligned': Path('pretrained_models/stylegan3-r-ffhqu-1024x1024.pkl'),
+	'stylegan3_ffhq_unaligned_pt': Path('pretrained_models/sg3-r-ffhqu-1024.pt'),
 	# model for face alignment
 	'shape_predictor': Path('pretrained_models/shape_predictor_68_face_landmarks.dat'),
 	# models for ID similarity computation
@@ -37,15 +37,5 @@ styleclip_directions = {
 }
 
 interfacegan_aligned_edit_paths = {
-	'age': Path('editing/interfacegan/boundaries/ffhq/age_boundary.npy'),
-	'smile': Path('editing/interfacegan/boundaries/ffhq/Smiling_boundary.npy'),
-	'pose': Path('editing/interfacegan/boundaries/ffhq/pose_boundary.npy'),
-	'Male': Path('editing/interfacegan/boundaries/ffhq/Male_boundary.npy'),
-}
-
-interfacegan_unaligned_edit_paths = {
-	'age': Path('editing/interfacegan/boundaries/ffhqu/age_boundary.npy'),
-	'smile': Path('editing/interfacegan/boundaries/ffhqu/Smiling_boundary.npy'),
-	'pose': Path('editing/interfacegan/boundaries/ffhqu/pose_boundary.npy'),
-	'Male': Path('editing/interfacegan/boundaries/ffhqu/Male_boundary.npy'),
-}
+	'pose': Path('editing/interfacegan/boundaries/pose_boundary.npy')
+ }
